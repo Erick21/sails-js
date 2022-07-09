@@ -95,9 +95,8 @@
           >
         </div>
         <cloud-error v-if="cloudError==='emailAlreadyInUse'"
-          >It looks like there's already an account with your email address. If
-          you forgot your password, you can recover it
-          <a href="password/forgot">here</a>.</cloud-error
+          >It looks like there's already an account with your email
+          address.</cloud-error
         >
         <cloud-error v-else-if="cloudError"></cloud-error>
         <div class="form-group">
@@ -113,19 +112,11 @@
     </div>
   </div>
   <div class="container-fluid pt-5 pb-5" v-if="cloudSuccess">
-    <h1 class="text-center">Check your email!</h1>
+    <h1 class="text-center">Signup successfully!</h1>
     <div class="text-center">
       <hr />
-      <p>
-        Your account is nearly ready. All you have to do is click the link we
-        sent to <strong>{{ formData.emailAddress }}</strong
-        >.
-      </p>
-      <p>
-        (You can still access your dashboard now, but some features will be
-        unvavailable until we've verified your email address.)
-      </p>
-      <p><a class="btn btn-outline-info" href="/">Go to dashboard</a></p>
+      <p>Your account has been created successfully.</p>
+      <p><a class="btn btn-outline-info" href="/login">Go to login page</a></p>
     </div>
   </div>
 </div>

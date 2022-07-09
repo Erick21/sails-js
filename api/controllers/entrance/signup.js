@@ -56,20 +56,9 @@ the account verification message.)`,
     },
   },
 
-  fn: async function ({ emailAddress, password, fullName }) {
-    const AWS = require("aws-sdk");
-    AWS.config.update({
-      region: sails.config.custom.AWS_REGION_CODE,
-    });
+  fn: async function ({ emailAddress, password, fullName }, exits) {
     const crypto = require("crypto");
-    const cognitoidentityserviceprovider =
-      new AWS.CognitoIdentityServiceProvider({ apiVersion: "2016-04-18" });
-
-    var newEmailAddress = emailAddress.toLowerCase();
-
-    console.log("============> newEmailAddress:", newEmailAddress);
-    console.log("============> password:", password);
-    console.log("============> fullName:", fullName);
+    let newEmailAddress = emailAddress.toLowerCase();
 
     let params = {
       ClientId: sails.config.custom.COGNITO_CLIENT_ID,
@@ -96,26 +85,28 @@ the account verification message.)`,
         },
       ],
     };
-    cognitoidentityserviceprovider.signUp(params, function (err, data) {
-      if (err) {
-        console.log("========= err signUp:", err);
-      } else {
-        let paramsConfirmSignUp = {
-          UserPoolId: sails.config.custom.COGNITO_POOL_ID,
-          Username: data.UserSub,
-        };
-        cognitoidentityserviceprovider.adminConfirmSignUp(
-          paramsConfirmSignUp,
-          function (err, data) {
-            if (err) {
-              console.log("========= err adminConfirmSignUp:", err);
-            } else {
-              console.log("========= SUKSES");
+    sails.config.custom.cognitoidentityserviceprovider.signUp(
+      params,
+      function (err, data) {
+        if (err) {
+          if (err.toString().includes("exists"))
+            return exits.emailAlreadyInUse();
+          else return exits.invalid();
+        } else {
+          let paramsConfirmSignUp = {
+            UserPoolId: sails.config.custom.COGNITO_POOL_ID,
+            Username: data.UserSub,
+          };
+          sails.config.custom.cognitoidentityserviceprovider.adminConfirmSignUp(
+            paramsConfirmSignUp,
+            function (err, data) {
+              if (err) return exits.invalid();
+              else return exits.success();
             }
-          }
-        );
+          );
+        }
       }
-    });
+    );
 
     // // Build up data for the new user record and save it to the database.
     // // (Also use `fetch` to retrieve the new ID so that we can use it below.)

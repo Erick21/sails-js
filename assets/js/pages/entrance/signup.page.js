@@ -52,12 +52,11 @@ parasails.registerPage("signup", {
         // If email confirmation is enabled, show the success message.
         this.cloudSuccess = true;
       } else {
-        alert("Your account has been created successfully.");
+        this.cloudSuccess = true;
         // Otherwise, redirect to the logged-in dashboard.
         // > (Note that we re-enable the syncing state here.  This is on purpose--
         // > to make sure the spinner stays there until the page navigation finishes.)
         this.syncing = true;
-        window.location = "/login";
       }
     },
   },

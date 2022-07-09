@@ -107,11 +107,12 @@ will be disabled and/or hidden in the UI.
           fn: async function(req, res, next){
 
             var url = require('url');
+            console.log("========== TEST 1");
 
             // First, if this is a GET request (and thus potentially a view),
             // attach a couple of guaranteed locals.
             if (req.method === 'GET') {
-
+              console.log("========== TEST 2");
               // The  `_environment` local lets us do a little workaround to make Vue.js
               // run in "production mode" without unnecessarily involving complexities
               // with webpack et al.)
@@ -150,14 +151,15 @@ will be disabled and/or hidden in the UI.
               sails.log.info('Redirecting GET request from `'+req.hostname+'` to configured expected host (`'+configuredBaseHostname+'`)...');
               return res.redirect(sails.config.custom.baseUrl+req.url);
             }//•
-
+            console.log("========== TEST 3");
             // No session? Proceed as usual.
             // (e.g. request for a static asset)
             if (!req.session) { return next(); }
-
+            console.log("========== TEST 4");
             // Not logged in? Proceed as usual.
             if (!req.session.userId) { return next(); }
 
+            console.log("========== TEST 5")
             // Otherwise, look up the logged-in user.
             var loggedInUser = await User.findOne({
               id: req.session.userId

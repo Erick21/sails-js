@@ -8,6 +8,14 @@
  * https://sailsjs.com/config/custom
  */
 
+const AWS = require("aws-sdk");
+AWS.config.update({
+  region: "ap-southeast-1",
+});
+const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
+  apiVersion: "2016-04-18",
+});
+
 module.exports.custom = {
   /**************************************************************************
    *                                                                         *
@@ -106,7 +114,7 @@ module.exports.custom = {
    * AWS                                                                      *
    *                                                                          *
    ***************************************************************************/
-  AWS_REGION_CODE: "ap-southeast-1",
+  cognitoidentityserviceprovider: cognitoidentityserviceprovider,
   COGNITO_POOL_ID: "ap-southeast-1_3sRAVcqul",
   COGNITO_CLIENT_ID: "1fibplrovqj3465shedjgolise",
   COGNITO_CLIENT_SECRET: "tnnitdel73ohjep2jjnv9c996r56nnsq8o7b06pc81pm2v151u8",
