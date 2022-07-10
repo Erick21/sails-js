@@ -74,8 +74,7 @@ and exposed as \`req.me\`.)`,
         if (err) {
           return exits.badCombo();
         } else {
-          // TODO
-          that.req.session.userId = dataInitiateAuth.AuthenticationResult.IdToken;
+          that.req.session.userId = emailAddress;
 
           // this.req.me = true;
           return exits.success();
