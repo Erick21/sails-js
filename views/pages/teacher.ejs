@@ -1,0 +1,169 @@
+<div id="teacher" v-cloak>
+  <div class="container pt-5 pb-5">
+    <div class="form-group">
+      <button class="btn btn-outline-info ml-2" @click="prepareInsert()">
+        Add new teacher
+      </button>
+    </div>
+    <hr />
+
+    <table id="datatable" class="row-border hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nick Name</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Address</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>No data</td>
+          <td>No data</td>
+          <td>No data</td>
+          <td>No data</td>
+          <td>No data</td>
+          <td>No data</td>
+          <td>No data</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- **************************** CREATE MODAL **************************** -->
+    <div
+      class="modal fade"
+      id="create-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <ajax-form
+            action="createTeacher"
+            :syncing.sync="syncing"
+            :form-errors.sync="formErrors"
+            :form-data="formData"
+            :form-rules="formRules"
+            @submitted="submittedForm()"
+          >
+            <div class="modal-header">
+              <a data-dismiss="modal" class="action-btn active btn-close-modal">
+                <i class="zmdi zmdi-close"></i>
+              </a>
+              <h2 id="titleCreateOrEdit" purpose="titleCreateOrEdit"></h2>
+            </div>
+
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="nick-name">Nick name</label>
+                <input
+                  class="form-control"
+                  id="nick-name"
+                  type="text"
+                  :class="[formErrors.nickName ? 'is-invalid' : '']"
+                  v-model.trim="formData.nickName"
+                  placeholder="Nick name"
+                  autocomplete="name"
+                  focus-first
+                />
+                <div class="invalid-feedback" v-if="formErrors.nickName">
+                  Please enter your nick name.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="full-name">Full name</label>
+                <input
+                  class="form-control"
+                  id="full-name"
+                  type="text"
+                  :class="[formErrors.fullName ? 'is-invalid' : '']"
+                  v-model.trim="formData.fullName"
+                  placeholder="Full name"
+                  autocomplete="name"
+                />
+                <div class="invalid-feedback" v-if="formErrors.fullName">
+                  Please enter your full name.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email-address">Email address</label>
+                <input
+                  class="form-control"
+                  id="email-address"
+                  type="email"
+                  :class="[formErrors.emailAddress ? 'is-invalid' : '']"
+                  v-model.trim="formData.emailAddress"
+                  placeholder="Email address"
+                  autocomplete="email"
+                />
+                <div class="invalid-feedback" v-if="formErrors.emailAddress">
+                  Please enter a valid email address.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone-number">Phone number</label>
+                <input
+                  class="form-control"
+                  id="phone-number"
+                  type="text"
+                  :class="[formErrors.phoneNumber ? 'is-invalid' : '']"
+                  v-model.trim="formData.phoneNumber"
+                  placeholder="Phone number"
+                />
+                <div class="invalid-feedback" v-if="formErrors.phoneNumber">
+                  Please enter your phone number.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="addess">Address</label>
+                <input
+                  class="form-control"
+                  id="addess"
+                  type="text"
+                  :class="[formErrors.address ? 'is-invalid' : '']"
+                  v-model.trim="formData.address"
+                  placeholder="Address"
+                />
+                <div class="invalid-feedback" v-if="formErrors.address">
+                  Please enter your address.
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div class="form-group">
+                <button
+                  class="btn btn-outline-info ml-2"
+                  @click="doCancel()"
+                >
+                  Cancel
+                </button>
+              </div>
+
+              <div class="form-group">
+                <ajax-button
+                  type="submit"
+                  :syncing="syncing"
+                  class="btn-dark btn-block"
+                  >Create account</ajax-button
+                >
+              </div>
+            </div>
+          </ajax-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */
+exposeLocalsToBrowser() %>
