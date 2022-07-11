@@ -1,9 +1,9 @@
 module.exports = {
-  friendlyName: "Create teacher",
+  friendlyName: "Create/ update teacher",
 
-  description: "Create a new user teacher.",
+  description: "Create/ update teacher.",
 
-  extendedDescription: `This creates a new teacher record in the database`,
+  extendedDescription: `This creates/ updates a teacher record in the database`,
 
   inputs: {
     teacherId: {
@@ -40,7 +40,7 @@ module.exports = {
 
   exits: {
     success: {
-      description: "Teacher was created/ edited successfully.",
+      description: "Teacher was created/ updated successfully.",
     },
   },
 
@@ -50,8 +50,6 @@ module.exports = {
   ) {
     if (teacherId) {
       // Update
-      console.log("=========== teacherId:", teacherId);
-      console.log("=========== nickName:", nickName);
       sails.config.custom.dynamodb.updateItem(
         {
           TableName: sails.config.custom.TABLE_NAME_TEACHER,

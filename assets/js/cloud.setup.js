@@ -70,7 +70,19 @@ Cloud.setup({
     createTeacher: {
       verb: "POST",
       url: "/api/v1/teacher/create",
-      args: ["nickName", "fullName", "emailAddress", "phoneNumber", "address"],
+      args: [
+        "teacherId",
+        "nickName",
+        "fullName",
+        "emailAddress",
+        "phoneNumber",
+        "address",
+      ],
+    },
+    deleteTeacher: {
+      verb: "POST",
+      url: "/api/v1/teacher/delete",
+      args: ["teacherId"],
     },
   },
   /* eslint-enable */

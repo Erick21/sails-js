@@ -3,8 +3,6 @@ parasails.registerPage("teacher", {
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: {
-    thisActionSelected: 1,
-
     // Form data
     formData: {
       /* … */
@@ -142,12 +140,26 @@ parasails.registerPage("teacher", {
         });
 
         var data = table.row($(this).closest("tr")).data();
-        this.thisActionSelected = 2;
         that.formData.teacherId = data[0];
 
         $("#btnCreateOrEdit").text("Update");
         $("#titleCreateOrEdit").text("Update Teacher");
         $("#create-modal").modal({
+          show: true,
+        });
+      }
+    );
+
+    $("#datatable").on(
+      "mousedown.edit",
+      "td #btn-delete-datatable",
+      function (e) {
+        e.preventDefault();
+
+        var data = table.row($(this).closest("tr")).data();
+        that.formData.teacherId = data[0];
+
+        $("#delete-modal").modal({
           show: true,
         });
       }
@@ -159,7 +171,6 @@ parasails.registerPage("teacher", {
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
     prepareInsert: async function () {
-      this.thisActionSelected = 1;
       this.formData.teacherId = "";
       $("#nick-name").val("");
       $("#full-name").val("");
@@ -174,12 +185,22 @@ parasails.registerPage("teacher", {
       });
     },
 
-    doCancel: async function () {
+    doCancelCreate: async function () {
       $("#create-modal").modal("toggle");
     },
 
-    submittedForm: async function () {
+    doCancelDelete: async function () {
+      $("#delete-modal").modal("toggle");
+    },
+
+    submittedFormCreate: async function () {
       $("#create-modal").modal("toggle");
+      this.syncing = true;
+      window.location = "/teacher";
+    },
+
+    submittedFormDelete: async function () {
+      $("#delete-modal").modal("toggle");
       this.syncing = true;
       window.location = "/teacher";
     },
