@@ -19,6 +19,7 @@ parasails.registerPage("teacher", {
     // A set of validation rules for our form.
     // > The form will not be submitted if these are invalid.
     formRules: {
+      teacherId: { required: false },
       nickName: { required: true },
       fullName: { required: true },
       emailAddress: { required: true, isEmail: true },
@@ -50,33 +51,107 @@ parasails.registerPage("teacher", {
         },
         {
           targets: [1],
-          width: "15%",
+          width: "10%",
         },
         {
           targets: [2],
-          width: "25%",
+          width: "20%",
         },
         {
           targets: [3],
-          width: "17%",
+          width: "15%",
         },
         {
           targets: [4],
-          width: "13%",
+          width: "10%",
         },
         {
           targets: [5],
-          width: "30%",
+          width: "45%",
         },
         {
           targets: [6],
           orderable: false,
           searchable: false,
-          width: 150,
+          width: 200,
         },
       ],
     });
-    table.clear().draw();
+
+    table.clear();
+    this.listData.forEach(function (eachData) {
+      let thisDatatablesAppend = "";
+      thisDatatablesAppend = thisDatatablesAppend + "<tr>";
+      thisDatatablesAppend =
+        thisDatatablesAppend + "<td>" + eachData.teacher_id + "</td>";
+      thisDatatablesAppend =
+        thisDatatablesAppend + "<td>" + eachData.nick_name + "</td>";
+      thisDatatablesAppend =
+        thisDatatablesAppend + "<td>" + eachData.full_name + "</td>";
+      thisDatatablesAppend =
+        thisDatatablesAppend + "<td>" + eachData.email_address + "</td>";
+      thisDatatablesAppend =
+        thisDatatablesAppend + "<td>" + eachData.phone_number + "</td>";
+      thisDatatablesAppend =
+        thisDatatablesAppend + "<td>" + eachData.address + "</td>";
+      thisDatatablesAppend = thisDatatablesAppend + "<td>";
+      thisDatatablesAppend =
+        thisDatatablesAppend +
+        '<button class="btn btn-outline-info ml-2" id="btn-edit-datatable">Edit</button>';
+      thisDatatablesAppend =
+        thisDatatablesAppend +
+        '<button class="btn btn-outline-secondary ml-2" id="btn-delete-datatable">Delete</button>';
+      thisDatatablesAppend = thisDatatablesAppend + "</td>";
+      thisDatatablesAppend = thisDatatablesAppend + "</td>";
+      thisDatatablesAppend = thisDatatablesAppend + "</tr>";
+
+      table.row.add($(thisDatatablesAppend));
+    });
+    table.draw();
+
+    let that = this;
+
+    $("#datatable").on(
+      "mousedown.edit",
+      "td #btn-edit-datatable",
+      function (e) {
+        e.preventDefault();
+        var $row = $(this).closest("tr").off("mousedown");
+        var $tds = $row.find("td").not(":last");
+
+        $.each($tds, function (i, el) {
+          if (i < $tds.length) {
+            var txt = $(this).text();
+            if (i == 0) {
+              $("#nick-name").val(txt);
+              that.formData.nickName = txt;
+            } else if (i == 1) {
+              $("#full-name").val(txt);
+              that.formData.fullName = txt;
+            } else if (i == 2) {
+              $("#email-address").val(txt);
+              that.formData.emailAddress = txt;
+            } else if (i == 3) {
+              $("#phone-number").val(txt);
+              that.formData.phoneNumber = txt;
+            } else if (i == 4) {
+              $("#addess").val(txt);
+              that.formData.address = txt;
+            }
+          }
+        });
+
+        var data = table.row($(this).closest("tr")).data();
+        this.thisActionSelected = 2;
+        that.formData.teacherId = data[0];
+
+        $("#btnCreateOrEdit").text("Update");
+        $("#titleCreateOrEdit").text("Update Teacher");
+        $("#create-modal").modal({
+          show: true,
+        });
+      }
+    );
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
@@ -85,6 +160,7 @@ parasails.registerPage("teacher", {
   methods: {
     prepareInsert: async function () {
       this.thisActionSelected = 1;
+      this.formData.teacherId = "";
       $("#nick-name").val("");
       $("#full-name").val("");
       $("#email-address").val("");
@@ -105,7 +181,7 @@ parasails.registerPage("teacher", {
     submittedForm: async function () {
       $("#create-modal").modal("toggle");
       this.syncing = true;
-      window.location = '/teacher';
+      window.location = "/teacher";
     },
   },
 });

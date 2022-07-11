@@ -15,6 +15,8 @@ AWS.config.update({
 const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
   apiVersion: "2016-04-18",
 });
+const dynamodb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 module.exports.custom = {
   /**************************************************************************
@@ -115,6 +117,9 @@ module.exports.custom = {
    *                                                                          *
    ***************************************************************************/
   cognitoidentityserviceprovider: cognitoidentityserviceprovider,
+  dynamodb: dynamodb,
+  docClient: docClient,
+  TABLE_NAME_TEACHER: "demo_teachers",
   COGNITO_POOL_ID: "ap-southeast-1_3sRAVcqul",
   COGNITO_CLIENT_ID: "1fibplrovqj3465shedjgolise",
   COGNITO_CLIENT_SECRET: "tnnitdel73ohjep2jjnv9c996r56nnsq8o7b06pc81pm2v151u8",

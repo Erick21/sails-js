@@ -142,20 +142,18 @@
 
             <div class="modal-footer">
               <div class="form-group">
-                <button
-                  class="btn btn-outline-info ml-2"
-                  @click="doCancel()"
-                >
+                <button class="btn btn-outline-info ml-2" @click="doCancel()">
                   Cancel
                 </button>
               </div>
 
               <div class="form-group">
                 <ajax-button
+                  id="btnCreateOrEdit"
                   type="submit"
                   :syncing="syncing"
                   class="btn-dark btn-block"
-                  >Create account</ajax-button
+                  >Create</ajax-button
                 >
               </div>
             </div>
